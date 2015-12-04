@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <math.h>
 #include "Circle.h"
-#include "ExternHeaders\glut.h"
+//#include "ExternHeaders\glut.h"
+#include "ExternHeaders\freeglut.h"
 CircleType *circles;
 int numCircles;
 void createCircles() {
