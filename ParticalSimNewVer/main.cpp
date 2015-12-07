@@ -122,7 +122,6 @@ void glDrawParticles(void) {
 	int x;
 	for (x = 0; x < numCircles; x++)
 	{
-
 		glPushMatrix();
 		//glTranslatef(3, 5, 0);
 		glTranslatef(circles[x].position.x, circles[x].position.y, 0);
