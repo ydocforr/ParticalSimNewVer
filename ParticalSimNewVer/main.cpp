@@ -189,7 +189,7 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(1000, 700);
-	glutCreateWindow("PQ DUMMY WINDOW");
+	glutCreateWindow("Particle Simulation");
 	init();
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
