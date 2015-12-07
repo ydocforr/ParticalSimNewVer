@@ -9,41 +9,23 @@ CircleType *circles;
 int numCircles;
 void createCircles() {
 	int x;
-	numCircles = 2;
+	numCircles = 150;
 	circles = (struct CircleType*)malloc(sizeof(struct CircleType) * numCircles);
 	for (x = 0; x < numCircles; x++)
 	{
-		/*
 		circles[x].radius = .05;
-
-		circles[x].position.x = (rand() % 6 - 3);
-		circles[x].position.y = (rand() % 6 - 3);
-
+		circles[x].position.x = (((double)rand() / (double)RAND_MAX) * 5 - 3);
+		circles[x].position.y = (((double)rand() / (double)RAND_MAX) * 5 - 3);
 		circles[x].velocity.x = 0;
 		circles[x].velocity.y = 0;
 		circles[x].acceleration.x = 0;
 		circles[x].acceleration.y = 0;
-		*/
-		circles[0].radius = .1;
-		circles[0].position.x = -2;
-		circles[0].position.y = 2;
-		circles[0].velocity.x = 0;
-		circles[0].velocity.y = 0;
-		circles[0].acceleration.x = 0;
-		circles[0].acceleration.y = 0;
-		circles[1].radius = .1;
-		circles[1].position.x = -1.5;
-		circles[1].position.y = 1.5;
-		circles[1].velocity.x = 0;
-		circles[1].velocity.y = 0;
-		circles[1].acceleration.x = 0;
-		circles[1].acceleration.y = 0;
-
 	}
 }
 //right now assumes all objects are the same mass
 void performGravity(float gravity) {
 	int x, y;
+	double con = 1;
 	struct Vector tempVector, tempVector2;
 	for (x = 0; x < numCircles; x++)
 	{
@@ -62,6 +44,30 @@ void performGravity(float gravity) {
 				continue;
 			}
 			tempVector = subtractVectors(circles[x].position, circles[y].position);
+			//prevent abs of distance from being than 1
+
+			if (fabs(tempVector.x) < con)
+			{
+				if (tempVector.x >= 0)
+				{
+					tempVector.x = con;
+				}
+				else
+				{
+					tempVector.x = -con;
+				}
+			}
+			if (fabs(tempVector.y) < con)
+			{
+				if (tempVector.y >= 0)
+				{
+					tempVector.y = con;
+				}
+				else
+				{
+					tempVector.y = -con;
+				}
+			}
 			tempVector2.x = tempVector.x / pow(magnitude(tempVector), 3);
 			tempVector2.y = tempVector.y / pow(magnitude(tempVector), 3);
 			acceleration = addVectors(acceleration, tempVector2);
@@ -70,7 +76,6 @@ void performGravity(float gravity) {
 		acceleration.y *= gravity;
 		circles[x].acceleration = acceleration;
 	}
-
 	for (x = 0; x < numCircles; x++)
 	{
 		circles[x].velocity = addVectors(circles[x].velocity, circles[x].acceleration);
@@ -103,14 +108,12 @@ struct Vector subtractVectors(struct Vector vA, struct Vector vB) {
 	v.y = vA.y - vB.y;
 	return v;
 }
-
 struct Vector addVectors(struct Vector vA, struct Vector vB) {
 	struct Vector v;
 	v.x = vA.x + vB.x;
 	v.y = vA.y + vB.y;
 	return v;
 }
-
 double magnitude(struct Vector v)
 {
 	return sqrt(v.x * v.x + v.y * v.y);
@@ -119,6 +122,7 @@ void glDrawParticles(void) {
 	int x;
 	for (x = 0; x < numCircles; x++)
 	{
+
 		glPushMatrix();
 		//glTranslatef(3, 5, 0);
 		glTranslatef(circles[x].position.x, circles[x].position.y, 0);
@@ -139,9 +143,7 @@ void glDrawParticles(void) {
 		glVertex3f(-1, 1, 0);
 		glEnd();
 		glBlendFunc(GL_ONE, GL_ONE);
-
 		glBindTexture(GL_TEXTURE_2D, GL_TEXTURE1);
-
 		glBegin(GL_QUADS);
 		glTexCoord2d(0, 0);
 		glVertex3f(-1, -1, 0);
@@ -163,7 +165,7 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(0, 0, -10);
-	performGravity(-.0005f);
+	performGravity(-.0001f);
 	//glUpdateParticles();
 	glDrawParticles();
 	glutSwapBuffers();
