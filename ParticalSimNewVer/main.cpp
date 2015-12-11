@@ -4,6 +4,7 @@
 #include <math.h>
 #include "Circle.h"
 //#include "ExternHeaders\glut.h"
+#include "ExternHeaders\glext.h"
 #include "ExternHeaders\freeglut.h"
 CircleType *circles;
 int numCircles;
@@ -128,30 +129,10 @@ void glDrawParticles(void) {
 		glRotatef(0 - 90, 0, 0, 1);
 		glScalef(circles[x].radius, circles[x].radius, circles[x].radius);
 		glDisable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_DST_COLOR, GL_ZERO);
-		glBindTexture(GL_TEXTURE_2D, GL_TEXTURE1);
-		glBegin(GL_QUADS);
+		glDrawArrays(GL_POINTS, 0, 12);	
+		glBegin(GL_POINTS);
 		glTexCoord2d(0, 0);
-		glVertex3f(-1, -1, 0);
-		glTexCoord2d(1, 0);
-		glVertex3f(1, -1, 0);
-		glTexCoord2d(1, 1);
-		glVertex3f(1, 1, 0);
-		glTexCoord2d(0, 1);
-		glVertex3f(-1, 1, 0);
-		glEnd();
-		glBlendFunc(GL_ONE, GL_ONE);
-		glBindTexture(GL_TEXTURE_2D, GL_TEXTURE1);
-		glBegin(GL_QUADS);
-		glTexCoord2d(0, 0);
-		glVertex3f(-1, -1, 0);
-		glTexCoord2d(1, 0);
-		glVertex3f(1, -1, 0);
-		glTexCoord2d(1, 1);
-		glVertex3f(1, 1, 0);
-		glTexCoord2d(0, 1);
-		glVertex3f(-1, 1, 0);
+		glVertex3f(0, 0, 0);
 		glEnd();
 		glEnable(GL_DEPTH_TEST);
 		glPopMatrix();
@@ -165,7 +146,6 @@ void display(void) {
 	glLoadIdentity();
 	glTranslatef(0, 0, -10);
 	performGravity(-.0001f);
-	//glUpdateParticles();
 	glDrawParticles();
 	glutSwapBuffers();
 }
@@ -173,6 +153,8 @@ void display(void) {
 void init(void) {
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_PROGRAM_POINT_SIZE);
+	glPointSize(3);
 	createCircles();
 	//glCreateParticles();
 }
