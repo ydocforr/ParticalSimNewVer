@@ -10,9 +10,10 @@
 CircleType *circles;
 int numCircles;
 double fps = 0;
+#define N_PARTICLES 150
 void createCircles() {
 	int x;
-	numCircles = 150;
+	numCircles = N_PARTICLES;
 	circles = (struct CircleType*)malloc(sizeof(struct CircleType) * numCircles);
 	for (x = 0; x < numCircles; x++)
 	{
@@ -146,19 +147,22 @@ void chooseColor(CircleType point) {
 }
 
 void glDrawFPS(void) {
-	glColor3f(1.0f, 1.0f, 1.0f);
+	glColor3f(1.0, 1.0, 1.0);
 	char buf[100];
-	sprintf_s(buf, "FPS: %f", fps);
-	glRasterPos2f(-4.0f, 3.9);
+	sprintf_s(buf, "FPS: %f\n", fps);
+	glRasterPos2f(-4.0, 3.9);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
 }
 
 void glDrawInterface(void) {
 	char buf[100];
+	sprintf_s(buf, "N=%d", N_PARTICLES);
+	glRasterPos2f(0.0, 3.9);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
 	glRasterPos2f(3.0f, 3.9);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"[P] to Pause\n");
 	if (pause) {
-		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"[F] to Fullscreen\n[Q] to Quit");
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"[F] to Fullscreen\n[Q] to Quit\n[T] to Throttle\n[A] to Frameskip");
 		char* mode = "";
 		switch (color_mode) {
 		case 0:
@@ -191,7 +195,7 @@ void glDrawBounds(void) {
 }
 
 void glDrawParticles(void) {
-	glPointSize(zoom + 3.0);
+	glPointSize(zoom + 5.0);
 	glBegin(GL_POINTS);
 	for (int x = 0; x < numCircles; x++)
 	{
@@ -221,17 +225,22 @@ int frameCount = 0;
 int currentTime = 0;
 int previousTime = 0;
 
-void calculateFPS() {
+bool calculateFPS() {
 	frameCount++;
 	currentTime = glutGet(GLUT_ELAPSED_TIME);
 	int timeInterval = currentTime - previousTime;
-	fps = frameCount / (timeInterval / 1000.0f);
-	previousTime = currentTime;
-	frameCount = 0;
+	if (frameCount == 60) {
+		fps = frameCount / (timeInterval / 1000.0f);
+		previousTime = currentTime;
+		frameCount = 0;
+		return true;
+	}
+	return false;
 }
 
 void idle(void) {
-	calculateFPS();
+	if (calculateFPS())
+		return;
 	glutPostRedisplay();
 }
 
