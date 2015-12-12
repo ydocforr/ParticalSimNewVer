@@ -3,24 +3,27 @@
 #include <stdio.h>
 #include <math.h>
 #include "Circle.h"
+#include "Input.h"
 //#include "ExternHeaders\glut.h"
 #include "ExternHeaders\glext.h"
 #include "ExternHeaders\freeglut.h"
 CircleType *circles;
 int numCircles;
+double fps = 0;
 void createCircles() {
 	int x;
 	numCircles = 150;
 	circles = (struct CircleType*)malloc(sizeof(struct CircleType) * numCircles);
 	for (x = 0; x < numCircles; x++)
 	{
-		circles[x].radius = .05;
+		circles[x].radius = 0.5;
 		circles[x].position.x = (((double)rand() / (double)RAND_MAX) * 5 - 3);
 		circles[x].position.y = (((double)rand() / (double)RAND_MAX) * 5 - 3);
 		circles[x].velocity.x = 0;
 		circles[x].velocity.y = 0;
 		circles[x].acceleration.x = 0;
 		circles[x].acceleration.y = 0;
+		circles[x].mass = (x * 1000) / 150;
 	}
 }
 //right now assumes all objects are the same mass
@@ -115,28 +118,87 @@ struct Vector addVectors(struct Vector vA, struct Vector vB) {
 	v.y = vA.y + vB.y;
 	return v;
 }
+
 double magnitude(struct Vector v)
 {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
-void glDrawParticles(void) {
-	int x;
-	for (x = 0; x < numCircles; x++)
-	{
-		glPushMatrix();
-		//glTranslatef(3, 5, 0);
-		glTranslatef(circles[x].position.x, circles[x].position.y, 0);
-		glRotatef(0 - 90, 0, 0, 1);
-		glScalef(circles[x].radius, circles[x].radius, circles[x].radius);
-		glDisable(GL_DEPTH_TEST);
-		glDrawArrays(GL_POINTS, 0, 12);	
-		glBegin(GL_POINTS);
-		glTexCoord2d(0, 0);
-		glVertex3f(0, 0, 0);
-		glEnd();
-		glEnable(GL_DEPTH_TEST);
-		glPopMatrix();
+
+double distance(struct Vector v, struct Vector v2) {
+	return sqrt(pow(v2.x - v.x, 2) + pow(v2.y - v.y, 2));
+}
+
+void chooseColor(CircleType point) {
+	switch (color_mode) {
+	case 0:
+		glColor3f(((point.mass * 1.0)) / 1000.0, 0.0, (1.0 - ((point.mass) / 1000.0)));
+		break;
+	case 1:
+		struct Vector center;
+		center.x = 0.0;
+		center.y = 0.0;
+		glColor3f(1.0 - distance(point.position, center) / 3.0, 0.0, distance(point.position, center) / 3.0);
+		break;
+	case 2:
+		glColor3f(magnitude(point.velocity) * 10.0, 0.0, 1.0 - magnitude(point.velocity) * 10.0);
+		break;
 	}
+}
+
+void glDrawFPS(void) {
+	glColor3f(1.0f, 1.0f, 1.0f);
+	char buf[100];
+	sprintf_s(buf, "FPS: %f", fps);
+	glRasterPos2f(-4.0f, 3.9);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
+}
+
+void glDrawInterface(void) {
+	char buf[100];
+	glRasterPos2f(3.0f, 3.9);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"[P] to Pause\n");
+	if (pause) {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)"[F] to Fullscreen\n[Q] to Quit");
+		char* mode = "";
+		switch (color_mode) {
+		case 0:
+			mode = "Mass";
+			break;
+		case 1:
+			mode = "Position";
+			break;
+		case 2:
+			mode = "Velocity";
+			break;
+		}
+		sprintf_s(buf, "[C] to change color mapping (%s)", mode);
+		glRasterPos2f(-4.0f, -3.9f);
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
+	}
+}
+
+void glDrawBounds(void) {
+	glPushMatrix();
+	glTranslatef(panx, -pany, zoom);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(3, 3);
+	glVertex2i(3, -3);
+	glVertex2i(-3, -3);
+	glVertex2i(-3, 3);
+	glEnd();
+	glPopMatrix();
+}
+
+void glDrawParticles(void) {
+	glPointSize(zoom + 3.0);
+	glBegin(GL_POINTS);
+	for (int x = 0; x < numCircles; x++)
+	{
+		chooseColor(circles[x]);
+		glVertex3f(circles[x].position.x + panx, circles[x].position.y - pany, zoom);
+	}
+	glEnd();
 }
 
 void display(void) {
@@ -145,18 +207,41 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(0, 0, -10);
-	performGravity(-.0001f);
+	if (!pause)
+		performGravity(-.0001f);
+	glDrawBounds();
 	glDrawParticles();
+	glDrawFPS();
+	glDrawInterface();
 	glutSwapBuffers();
+}
+
+// FPS calculation specific stuff
+int frameCount = 0;
+int currentTime = 0;
+int previousTime = 0;
+
+void calculateFPS() {
+	frameCount++;
+	currentTime = glutGet(GLUT_ELAPSED_TIME);
+	int timeInterval = currentTime - previousTime;
+	fps = frameCount / (timeInterval / 1000.0f);
+	previousTime = currentTime;
+	frameCount = 0;
+}
+
+void idle(void) {
+	calculateFPS();
+	glutPostRedisplay();
 }
 
 void init(void) {
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_PROGRAM_POINT_SIZE);
+	glEnable(GL_POINT_SMOOTH);
 	glPointSize(3);
 	createCircles();
-	//glCreateParticles();
 }
 
 void reshape(int w, int h) {
@@ -169,14 +254,19 @@ void reshape(int w, int h) {
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(1000, 700);
 	glutCreateWindow("Particle Simulation");
+	// init
 	init();
 	glutDisplayFunc(display);
-	glutIdleFunc(display);
+	glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
+	// setup input
+	glutMouseFunc(mouseCallback);
+	glutMotionFunc(mouseMoveCallback);
+	glutKeyboardFunc(keyboardCallback);
 	glutMainLoop();
 	return 0;
 }
