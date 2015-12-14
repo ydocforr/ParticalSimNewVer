@@ -22,7 +22,8 @@
 //#define  numCircles (numBlocks * numThreads / 2)
 
 ////NUMBER OF PARTICAL for no reduction && cpu partical updates
-#define numCircles (numBlocks * numThreads)
+//#define numCircles (numBlocks * numThreads)
+#define numCircles 500
 
 
 // FPS calculation specific stuff
@@ -50,12 +51,8 @@ void glDrawParticles(void);
 void glDrawBounds(void);
 void glDrawInterface(void);
 void glDrawFPS(void);
-float distance(struct Vector v, struct Vector v2);
-float magnitude(struct Vector v);
-struct Vector {
-	float x;
-	float y;
-};
+float distance(float x1, float y1, float x2, float y2);
+float magnitude(float x, float y);
 /*
 //CUDA KERNEL  DIVIDE FOUR REDUCTION METHOD 
 __global__ void UpdateParticlesDivideFourReduction(float*particalInContainer, float*particalOutContainer)
@@ -577,7 +574,8 @@ void createCircles() {
 		particleContainer[x + 2] = 0;
 		particleContainer[x + 3] = 0;
 		particleContainer[x + 4] = .05;
-		particleContainer[x + 5] = (x * 1000) / 150;
+		particleContainer[x + 5] = (x * 1000) / (yDim*numCircles);
+		printf("Mass: %f\n", particleContainer[x + 5]);
 	}
 }
 //right now assumes all objects are the same mass
@@ -709,34 +707,25 @@ int main(int argc, char **argv) {
 }
 //Nolans GUI Stuff
 void chooseColor(int containerStartIDX) {
-	struct Vector center;
-	struct Vector tempPointVector;
-	struct Vector tempVelocityVector;
-	center.x = 0.0;
-	center.y = 0.0;
-	tempPointVector.x = particleContainer[containerStartIDX + 0];
-	tempPointVector.y = particleContainer[containerStartIDX + 1];
-	tempVelocityVector.x = particleContainer[containerStartIDX + 2];
-	tempVelocityVector.y = particleContainer[containerStartIDX + 3];
 	switch (color_mode) {
 	case 0:
-		glColor3f(((particleContainer[containerStartIDX + 5] * 1.0)) / 1000.0, 0.0, (1.0 - ((particleContainer[containerStartIDX + 5]) / 1000.0)));
+		glColor3f((particleContainer[containerStartIDX + 5]) / 1000, 0.0, (1.0 - ((particleContainer[containerStartIDX + 5]) / 1000.0)));
 		break;
 	case 1:
 		//To find distance function
-		glColor3f(1.0 - distance(tempPointVector, center) / 3.0, 0.0, distance(tempPointVector, center) / 3.0);
+		glColor3f(1.0 - distance(particleContainer[containerStartIDX + 0], particleContainer[containerStartIDX + 1], 0.0, 0.0) / 3.0, 0.0, distance(particleContainer[containerStartIDX + 0], particleContainer[containerStartIDX + 1], 0.0, 0.0) / 3.0);
 		break;
 	case 2:
-		glColor3f(magnitude(tempVelocityVector) * 10.0, 0.0, 1.0 - magnitude(tempVelocityVector) * 10.0);
+		glColor3f(magnitude(particleContainer[containerStartIDX + 2], particleContainer[containerStartIDX + 3]) * 10.0, 0.0, 1.0 - magnitude(particleContainer[containerStartIDX + 2], particleContainer[containerStartIDX + 3]) * 10.0);
 		break;
 	}
 }
-float magnitude(struct Vector v)
+float magnitude(float x, float y)
 {
-	return sqrt(v.x * v.x + v.y * v.y);
+	return sqrt(x * x + y * y);
 }
-float distance(struct Vector v, struct Vector v2) {
-	return sqrt(pow(v2.x - v.x, 2) + pow(v2.y - v.y, 2));
+float distance(float x1, float y1, float x2, float y2) {
+	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 void glDrawFPS(void) {
 	glColor3f(1.0, 1.0, 1.0);
