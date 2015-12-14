@@ -7,8 +7,10 @@ extern double zoom;
 extern double panx;
 extern double pany;
 extern bool pause;
+extern bool frameskip;
 extern int color_mode;
 extern int speed;
+
 void endSimulation();
 void mouseCallback(int button, int state, int x, int y);
 void mouseMoveCallback(int x, int y);

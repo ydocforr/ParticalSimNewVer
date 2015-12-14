@@ -27,7 +27,6 @@
 
 
 // FPS calculation specific stuff
-int frameCount = 0;
 int currentTime = 0;
 int previousTime = 0;
 float fps = 0;
@@ -46,7 +45,7 @@ void UpdateParticlesCPU();
 //GUI Headers
 void chooseColor(int startIdx);
 void idle(void);
-bool calculateFPS();
+void calculateFPS();
 void glDrawParticles(void);
 void glDrawBounds(void);
 void glDrawInterface(void);
@@ -647,11 +646,12 @@ void performGravity() {
 	*/
 	UpdateParticlesCPU();
 }
+
 void glDrawParticles(void) {
 	glPointSize(zoom + 5.0);
 	glBegin(GL_POINTS);
 	int x;
-	for (x = 0; x < numCircles * yDim; x += yDim)
+	for (x = 0; x < numCircles*yDim; x += yDim)
 	{
 		chooseColor(x);
 		glVertex3f(particleContainer[x + 0] + panx, particleContainer[x + 1] - pany, zoom);
@@ -664,12 +664,17 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	glTranslatef(0, 0, -10);
-	if (!pause)
+	if (!pause || frameskip) {
 		performGravity();
+		frameskip = false;
+	}
 	glDrawBounds();
 	glDrawParticles();
 	glDrawFPS();
 	glDrawInterface();
+	if (fps > speed) {
+		Sleep((1 / (float)speed) * 1000 - 1000 * (1 / fps));
+	}
 	glutSwapBuffers();
 }
 void init(void) {
@@ -730,7 +735,7 @@ float distance(float x1, float y1, float x2, float y2) {
 void glDrawFPS(void) {
 	glColor3f(1.0, 1.0, 1.0);
 	char buf[100];
-	sprintf_s(buf, "FPS: %f\n", fps);
+	sprintf_s(buf, "FPS: %f\nThrottle: %d", fps, speed);
 	glRasterPos2f(-4.0, 3.9);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
 }
@@ -775,21 +780,14 @@ void glDrawBounds(void) {
 	glEnd();
 	glPopMatrix();
 }
-bool calculateFPS() {
-	frameCount++;
+void calculateFPS() {
 	currentTime = glutGet(GLUT_ELAPSED_TIME);
 	int timeInterval = currentTime - previousTime;
-	if (frameCount == 60) {
-		fps = frameCount / (timeInterval / 1000.0f);
-		previousTime = currentTime;
-		frameCount = 0;
-		return true;
-	}
-	return false;
+	fps = 1 / (timeInterval / 1000.0f);
+	previousTime = currentTime;
 }
 
 void idle(void) {
-	if (calculateFPS())
-		return;
+	calculateFPS();
 	glutPostRedisplay();
 }

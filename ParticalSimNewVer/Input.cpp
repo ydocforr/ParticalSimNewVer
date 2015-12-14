@@ -5,6 +5,7 @@ double zoom = 0.0;
 double panx = 0.0;
 double pany = 0.0;
 bool pause = false;
+bool frameskip = false;
 int color_mode = 0;
 int speed = 60;
 
@@ -74,11 +75,16 @@ void keyboardCallback(unsigned char key, int x, int y) {
 		endSimulation();
 		exit(0);
 		break;
-	case 's': // speed
-	case 'S':
-		speed += 20;
+	case 't': // throttle
+	case 'T':
+		speed += 5;
 		if (speed > 60)
-			speed = 20;
+			speed = 5;
+		break;
+	case 'a': // frameskip
+	case 'A':
+		pause = true;
+		frameskip = true;
 		break;
 	}
 }
