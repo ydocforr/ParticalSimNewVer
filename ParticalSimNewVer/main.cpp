@@ -49,7 +49,7 @@ void performGravity(float gravity) {
 				continue;
 			}
 			tempVector = subtractVectors(circles[x].position, circles[y].position);
-			//prevent abs of distance from being than 1
+			//prevent abs of distance from being less than 1
 
 			if (fabs(tempVector.x) < con)
 			{
