@@ -1,16 +1,35 @@
-﻿Build started 12/7/2015 11:46:44 AM.
+﻿Build started 12/13/2015 8:13:34 PM.
      1>Project "C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _RELEASE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(129): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(131): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(478): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(480): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(500): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(507): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(513): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(519): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(437): warning C4101: 'x': unreferenced local variable
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(579): warning C4305: '=': truncation from 'double' to 'float'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(580): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(585): warning C4101: 'elapsedTime': unreferenced local variable
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(653): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(659): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(723): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(727): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(730): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(736): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(739): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(745): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(752): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(754): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\main.cpp(779): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.lib" /MACHINE:X86 Debug\Circle.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.lib" /MACHINE:X86 Debug\Input.obj
          Debug\main.obj
          ParticalSimNewVer.vcxproj -> C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\Debug\ParticalSimNewVer.exe
      1>Done Building Project "C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.79
+Time Elapsed 00:00:00.84
