@@ -1,39 +1,41 @@
-﻿Build started 12/13/2015 10:32:47 PM.
-     1>Project "C:\Users\Nolan\Source\Repos\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" on node 2 (Build target(s)).
+﻿Build started 12/13/2015 10:49:13 PM.
+     1>Project "C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _RELEASE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Buffers.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _RELEASE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Buffers.cpp Input.cpp main.cpp
          main.cpp
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(474): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(476): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(496): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(503): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(509): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(515): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(433): warning C4101: 'x': unreferenced local variable
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(575): warning C4305: '=': truncation from 'double' to 'float'
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(576): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(582): warning C4101: 'elapsedTime': unreferenced local variable
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(651): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(657): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(676): warning C4244: 'argument': conversion from 'float' to 'DWORD', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(717): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(721): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(724): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(730): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(733): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(739): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(746): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(748): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-     1>c:\users\nolan\source\repos\particalsimnewver\particalsimnewver\main.cpp(773): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(474): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(476): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(496): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(503): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(509): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(515): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(433): warning C4101: 'x': unreferenced local variable
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(575): warning C4305: '=': truncation from 'double' to 'float'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(576): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(582): warning C4101: 'elapsedTime': unreferenced local variable
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(651): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(657): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(676): warning C4244: 'argument': conversion from 'float' to 'DWORD', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(717): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(721): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(724): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(730): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(733): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(739): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(746): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(748): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+     1>c:\users\cod\documents\visual studio 2015\projects\particalsimnewver\particalsimnewver\particalsimnewver\main.cpp(773): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+         Input.cpp
          Buffers.cpp
          Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Nolan\Source\Repos\ParticalSimNewVer\Debug\ParticalSimNewVer.exe" /INCREMENTAL /NOLOGO glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Nolan\Source\Repos\ParticalSimNewVer\Debug\ParticalSimNewVer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Nolan\Source\Repos\ParticalSimNewVer\Debug\ParticalSimNewVer.lib" /MACHINE:X86 Debug\Buffers.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\Debug\ParticalSimNewVer.exe" /INCREMENTAL /NOLOGO glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\Debug\ParticalSimNewVer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\Debug\ParticalSimNewVer.lib" /MACHINE:X86 Debug\Buffers.obj
          Debug\Input.obj
          Debug\main.obj
-         ParticalSimNewVer.vcxproj -> C:\Users\Nolan\Source\Repos\ParticalSimNewVer\Debug\ParticalSimNewVer.exe
-     1>Done Building Project "C:\Users\Nolan\Source\Repos\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" (Build target(s)).
+         LINK : C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\Debug\ParticalSimNewVer.exe not found or not built by the last incremental link; performing full link
+         ParticalSimNewVer.vcxproj -> C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\Debug\ParticalSimNewVer.exe
+     1>Done Building Project "C:\Users\Cod\Documents\Visual Studio 2015\Projects\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer\ParticalSimNewVer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.79
+Time Elapsed 00:00:01.99
