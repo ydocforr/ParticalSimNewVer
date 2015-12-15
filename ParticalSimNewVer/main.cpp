@@ -822,7 +822,7 @@ void glDrawInterface(void) {
 			mode = "GPU no reduction";
 			break;
 		case 2:
-			mode = "GPU 2x reduction";
+			mode = "GPU 2x reduction"; 
 			break;
 		case 3:
 			mode = "GPU 4x reduction";
