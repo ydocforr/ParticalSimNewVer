@@ -1,12 +1,14 @@
 #include <windows.h>
-#include "ExternHeaders\gl.h"
 #include <stdio.h>
 #include <math.h>
-#include "Input.h"
+#include <time.h>
+#include "ExternHeaders\glew.h"
+#include "ExternHeaders\gl.h"
 #include "ExternHeaders\glext.h"
 #include "ExternHeaders\freeglut.h"
+#include "Input.h"
 //DIMS FOR PARTICAL CONTAINER
-#define  yDim  6
+#define  yDim  9
 //GRAVITY CONSTANTS
 #define  con 1
 #define  gravity -.0001f
@@ -14,6 +16,7 @@
 #define numBlocks 2
 //1024 MAX THREADS
 #define numThreads 1024
+#define maxMass 10
 
 //NUMBER OF PARTICALS (for /4 reduction method)
 //#define  numCircles (numBlocks * numThreads / 4)
@@ -25,7 +28,8 @@
 //#define numCircles (numBlocks * numThreads)
 #define numCircles 500
 
-
+// VBO stuff
+GLuint particleVBO;
 // FPS calculation specific stuff
 int currentTime = 0;
 int previousTime = 0;
@@ -518,7 +522,35 @@ void UpdateParticlesCPU()
 		}
 		particleContainer[i + 4] = particleContainer[i + 4];
 		particleContainer[i + 5] = particleContainer[i + 5];
+
+		switch (color_mode) {
+		case 0:
+			particleContainer[i + 6] = particleContainer[i + 5] / maxMass;
+			particleContainer[i + 7] = 0.0;
+			particleContainer[i + 8] = 1 - (particleContainer[i + 5] / maxMass);
+			break;
+		case 1:
+			particleContainer[i + 6] = 1.0 - distance(particleContainer[i], particleContainer[i + 1], 0.0, 0.0) / 3.0;
+			particleContainer[i + 7] = 0.0;
+			particleContainer[i + 8] = distance(particleContainer[i], particleContainer[i + 1], 0.0, 0.0) / 3.0;
+			break;
+		case 2:
+			particleContainer[i + 6] = magnitude(particleContainer[i + 2], particleContainer[i + 3]) * (-1 / gravity) / 3000;
+			particleContainer[i + 7] = 0.0;
+			particleContainer[i + 8] = 1.0 - magnitude(particleContainer[i + 2], particleContainer[i + 3]) * (-1 / gravity) / 3000;
+			break;
+		default:
+			particleContainer[i + 6] = 1.0;
+			particleContainer[i + 7] = 1.0;
+			particleContainer[i + 8] = 1.0;
+			break;
+		}
 	}
+
+	// Update VBO
+	glBindBuffer(GL_ARRAY_BUFFER, particleVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, numCircles * yDim * sizeof(float), particleContainer);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 //When the user ends the simulation, the Input class calls this method to free structs
 void endSimulation()
@@ -539,7 +571,10 @@ void endSimulation()
 		exit(EXIT_FAILURE);
 	}
 	*/
+	// also free openGL VBO
+	glDeleteBuffers(1, &particleVBO);
 }
+
 void initContainer()
 {
 	/*
@@ -563,20 +598,27 @@ void initContainer()
 	*/
 	particleContainer = (float *)malloc(numCircles * yDim * sizeof(float));
 	createCircles();
+	glGenBuffers(1, &particleVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, particleVBO);
+	glBufferData(GL_ARRAY_BUFFER, numCircles * yDim * sizeof(float), particleContainer, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
 void createCircles() {
-	int x;
-	for (x = 0; x < numCircles*yDim; x += yDim)
+	for (int x = 0; x < numCircles*yDim; x += yDim)
 	{
-		particleContainer[x] = (((float)rand() / (float)RAND_MAX) * 5 - 3);
-		particleContainer[x + 1] = (((float)rand() / (float)RAND_MAX) * 5 - 3);
+		particleContainer[x] = (((float)rand() / (float)RAND_MAX) * 4 - 2);
+		particleContainer[x + 1] = (((float)rand() / (float)RAND_MAX) * 4 - 2);
 		particleContainer[x + 2] = 0;
 		particleContainer[x + 3] = 0;
 		particleContainer[x + 4] = .05;
-		particleContainer[x + 5] = (x * 1000) / (yDim*numCircles);
-		printf("Mass: %f\n", particleContainer[x + 5]);
+		particleContainer[x + 5] = (x * maxMass) / (yDim*numCircles);
+		particleContainer[x + 6] = 1.0;
+		particleContainer[x + 7] = 1.0;
+		particleContainer[x + 8] = 1.0;
 	}
 }
+
 //right now assumes all objects are the same mass
 void performGravity() {
 	float elapsedTime;
@@ -649,15 +691,29 @@ void performGravity() {
 
 void glDrawParticles(void) {
 	glPointSize(zoom + 5.0);
-	glBegin(GL_POINTS);
-	int x;
+	glPushMatrix();
+	glTranslatef(panx, -pany, zoom);
+	glBindBuffer(GL_ARRAY_BUFFER, particleVBO);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(2, GL_FLOAT, yDim * sizeof(float), 0);
+	glColorPointer(3, GL_FLOAT, yDim * sizeof(float), (const void*)(6 * sizeof(float)));
+	glDrawArrays(GL_POINTS, 0, numCircles);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glPopMatrix();
+	//glBegin(GL_POINTS);
+	
+	/*int x;
 	for (x = 0; x < numCircles*yDim; x += yDim)
 	{
 		chooseColor(x);
 		glVertex3f(particleContainer[x + 0] + panx, particleContainer[x + 1] - pany, zoom);
-	}
-	glEnd();
+	}*/
+	//glEnd();
 }
+
 void display(void) {
 	glClearDepth(1);
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -668,7 +724,6 @@ void display(void) {
 		performGravity();
 		frameskip = false;
 	}
-	glDrawBounds();
 	glDrawParticles();
 	glDrawFPS();
 	glDrawInterface();
@@ -677,14 +732,17 @@ void display(void) {
 	}
 	glutSwapBuffers();
 }
+
 void init(void) {
+	glewInit();
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_PROGRAM_POINT_SIZE);
+	glEnable(GL_PROGRAM_POINT_SIZE_EXT);
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(3);
 	initContainer();
 }
+
 void reshape(int w, int h) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -692,6 +750,7 @@ void reshape(int w, int h) {
 	gluPerspective(45, (w / h), 1.0, 1000.0);
 	glMatrixMode(GL_MODELVIEW);
 }
+
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
@@ -710,28 +769,16 @@ int main(int argc, char **argv) {
 	glutMainLoop();
 	return 0;
 }
-//Nolans GUI Stuff
-void chooseColor(int containerStartIDX) {
-	switch (color_mode) {
-	case 0:
-		glColor3f((particleContainer[containerStartIDX + 5]) / 1000, 0.0, (1.0 - ((particleContainer[containerStartIDX + 5]) / 1000.0)));
-		break;
-	case 1:
-		//To find distance function
-		glColor3f(1.0 - distance(particleContainer[containerStartIDX + 0], particleContainer[containerStartIDX + 1], 0.0, 0.0) / 3.0, 0.0, distance(particleContainer[containerStartIDX + 0], particleContainer[containerStartIDX + 1], 0.0, 0.0) / 3.0);
-		break;
-	case 2:
-		glColor3f(magnitude(particleContainer[containerStartIDX + 2], particleContainer[containerStartIDX + 3]) * 10.0, 0.0, 1.0 - magnitude(particleContainer[containerStartIDX + 2], particleContainer[containerStartIDX + 3]) * 10.0);
-		break;
-	}
-}
+
 float magnitude(float x, float y)
 {
 	return sqrt(x * x + y * y);
 }
+
 float distance(float x1, float y1, float x2, float y2) {
 	return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
+
 void glDrawFPS(void) {
 	glColor3f(1.0, 1.0, 1.0);
 	char buf[100];
@@ -741,7 +788,7 @@ void glDrawFPS(void) {
 }
 
 void glDrawInterface(void) {
-	char buf[100];
+	char buf[1000];
 	sprintf_s(buf, "N=%d", numCircles);
 	glRasterPos2f(0.0, 3.9);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
@@ -764,22 +811,29 @@ void glDrawInterface(void) {
 		sprintf_s(buf, "[C] to change color mapping (%s)", mode);
 		glRasterPos2f(-4.0f, -3.9f);
 		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
+		char* interop_status = "On";
+		if (!interop_mode)
+			interop_status = "Off";
+		switch (calc_mode) {
+		case 0:
+			mode = "CPU";
+			break;
+		case 1:
+			mode = "GPU no reduction";
+			break;
+		case 2:
+			mode = "GPU 2x reduction";
+			break;
+		case 3:
+			mode = "GPU 4x reduction";
+			break;
+		}
+		sprintf_s(buf, "[M] to change calculation mode (%s)\n[I] to use Interop (%s)", mode, interop_status);
+		glRasterPos2f(0.5f, -3.7f);
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)buf);
 	}
 }
 
-
-void glDrawBounds(void) {
-	glPushMatrix();
-	glTranslatef(panx, -pany, zoom);
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glBegin(GL_LINE_LOOP);
-	glVertex2i(3, 3);
-	glVertex2i(3, -3);
-	glVertex2i(-3, -3);
-	glVertex2i(-3, 3);
-	glEnd();
-	glPopMatrix();
-}
 void calculateFPS() {
 	currentTime = glutGet(GLUT_ELAPSED_TIME);
 	int timeInterval = currentTime - previousTime;

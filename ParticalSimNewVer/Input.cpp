@@ -7,6 +7,8 @@ double pany = 0.0;
 bool pause = false;
 bool frameskip = false;
 int color_mode = 0;
+int calc_mode = 3;
+bool interop_mode = true;
 int speed = 60;
 
 double dragging = false;
@@ -85,6 +87,16 @@ void keyboardCallback(unsigned char key, int x, int y) {
 	case 'A':
 		pause = true;
 		frameskip = true;
+		break;
+	case 'm': // calculation mode
+	case 'M':
+		calc_mode++;
+		if (calc_mode > 3)
+			calc_mode = 0;
+		break;
+	case 'i': // interop mode
+	case 'I':
+		interop_mode = !interop_mode;
 		break;
 	}
 }

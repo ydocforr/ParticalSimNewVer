@@ -9,6 +9,8 @@ extern double pany;
 extern bool pause;
 extern bool frameskip;
 extern int color_mode;
+extern int calc_mode;
+extern bool interop_mode;
 extern int speed;
 
 void endSimulation();
